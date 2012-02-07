@@ -2,7 +2,8 @@
 
 ### Install
 
-    cd my-zfproject/public
+    mkdir my-zfproject/public/build
+    cd my-zfproject/public/build
     wget --no-check-certificate https://github.com/muiku/h5bp-antbs-zendframework/tarball/v3.0-zfint -O - | tar -xz --strip 1
     
 ### Development
@@ -16,13 +17,11 @@ Just edit any file as you have done before:
 
 ### Deployment (Apache 2)
 
-Step 0. Preparation
--------------------
+#### Step 0. Preparation
 
-- Make sure that APPLICATION_PATH is correctly defined in index.php when under production.
+Make sure that APPLICATION_PATH is correctly defined in index.php when under production.
 
-    <?php
-        
+    <?php      
         // Define application environment
         defined('APPLICATION_ENV') || define('APPLICATION_ENV',  	
             (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production'));
@@ -33,15 +32,13 @@ Step 0. Preparation
 
         ...
 
-Step 1. Run the H5BP build script
----------------------------------
+#### Step 1. Run the H5BP build script
 
     cd public/build/
     ant # The H5BP build script will begin to run and compress your files.
 
 
-Step 2. Change the site docroot to point to public/publish/
------------------------------------------------------------
+#### Step 2. Change the site docroot to point to public/publish/
 
     <VirtualHost *:80>
         # ...
@@ -60,10 +57,9 @@ Step 2. Change the site docroot to point to public/publish/
         # ...
     </VirtualHost>
 
-Step 3. Edit application.ini
-----------------------------
+#### Step 3. Edit application.ini
 
-- Change the production layouts folder in application.ini
+Change the production layouts folder in application.ini
 
     [production]
     phpSettings.display_startup_errors = 0
