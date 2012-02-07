@@ -245,23 +245,27 @@
 
     <target name="-basics.test"
             depends="-intro,
+                     -pre-zfint,
                      -usemin,
                      -js.all.minify,
                      -js.main.concat,
                    -js.scripts.concat,
                    -css,
                    -manifest,
-                   -copy"/>
+                   -copy,
+                   -post-zfint"/>
 
   <target name="-basics.production"
           depends="-intro,
+                   -pre-zfint,
                    -usemin,
                    -js.all.minify,
                    -js.main.concat,
                    -js.scripts.concat,
                    -css,
                    -manifest,
-                   -copy"/>
+                   -copy,
+                   -post-zfint"/>
 
   <!-- Target: text -->
   <target name="-text.dev"
@@ -270,6 +274,7 @@
 
   <target name="-text.test"
           depends="-intro,
+                   -pre-zfint,
                    -usemin,
                    -js.all.minify,
                    -js.main.concat,
@@ -277,10 +282,12 @@
                    -css,
                    -manifest,
                    -htmlclean,
-                   -copy"/>
+                   -copy,
+                   -post-zfint"/>
 
   <target name="-text.production"
           depends="-intro,
+                   -pre-zfint,
                    -usemin,
                    -js.all.minify,
                    -js.main.concat,
@@ -288,7 +295,8 @@
                    -css,
                    -manifest,
                    -htmlclean,
-                   -copy"/>
+                   -copy,
+                   -post-zfint"/>
 
   <!-- Target: buildkit -->
   <target name="-buildkit.dev"
@@ -299,6 +307,7 @@
 
   <target name="-buildkit.test"
           depends="-intro,
+                   -pre-zfint,
                    -usemin,
                    -js.all.minify,
                    -js.main.concat,
@@ -308,10 +317,12 @@
                    -htmlbuildkit,
                    -imagespng,
                    -imagesjpg,
-                   -copy"/>
+                   -copy,
+                   -post-zfint"/>
 
   <target name="-buildkit.production"
           depends="-intro,
+                   -pre-zfint,
                    -usemin,
                    -js.all.minify,
                    -js.main.concat,
@@ -321,17 +332,21 @@
                    -htmlbuildkit,
                    -imagespng,
                    -imagesjpg,
-                   -copy"/>
+                   -copy,
+                   -post-zfint"/>
 
   <!-- Target: build -->
   <target name="-build.dev"
           depends="-intro,
+                   -pre-zfint,
                    -imagespng,
                    -imagesjpg,
-                   -copyall"/>
+                   -copyall,
+                   -post-zfint"/>
 
   <target name="-build.test"
           depends="-intro,
+                   -pre-zfint,
                    -usemin,
                    -js.all.minify,
                    -js.main.concat,
@@ -341,10 +356,12 @@
                    -htmlclean,
                    -imagespng,
                    -imagesjpg,
-                   -copy"/>
+                   -copy,
+                   -post-zfint"/>
 
   <target name="-build.production"
           depends="-intro,
+                   -pre-zfint,
                    -usemin,
                    -js.all.minify,
                    -js.main.concat,
@@ -354,7 +371,8 @@
                    -htmlclean,
                    -imagespng,
                    -imagesjpg,
-                   -copy"/>
+                   -copy,
+                   -post-zfint"/>
 
   <!-- Target: minify -->
   <target name="-minify.dev"
@@ -365,6 +383,7 @@
 
   <target name="-minify.test"
           depends="-intro,
+                   -pre-zfint,
                    -usemin,
                    -js.all.minify,
                    -js.main.concat,
@@ -374,10 +393,12 @@
                    -htmlcompress,
                    -imagespng,
                    -imagesjpg,
-                   -copy"/>
+                   -copy,
+                   -post-zfint"/>
 
   <target name="-minify.production"
           depends="-intro,
+                   -pre-zfint,
                    -usemin,
                    -js.all.minify,
                    -js.main.concat,
@@ -387,7 +408,8 @@
                    -htmlcompress,
                    -imagespng,
                    -imagesjpg,
-                   -copy"/>
+                   -copy,
+                   -post-zfint"/>
 
   <!--
   *************************************************

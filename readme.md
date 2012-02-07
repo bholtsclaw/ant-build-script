@@ -1,52 +1,100 @@
-# The h5bp ant build script
+# The H5BP ant build script Zend Framework integration
 
-The build script is a tool that optimizes your code for production use on the web.
+### Install
 
-## Why use it?
+    cd my-zfproject/public
+    wget --no-check-certificate https://github.com/muiku/h5bp-antbs-zendframework/tarball/v3.0-zfint -O - | tar -xz --strip 1
+    
+### Development
 
-Faster page load times and happy end users :)
+Just edit any file as you have done before:
 
-## What it does
+- Put your styles into public/css/style.css
+- Add some images under public/img/
+- JavaScript goes into public/js/scripts.js
+- etc. etc.
 
-* Combines and minifies javascript (via yui compressor)
-* Inlines stylesheets specified using `@import` in your CSS
-* Combines and minifies CSS
-* Optimizes JPGs and PNGs (with jpegtran & optipng)
-* Removes development only code (any remaining console.log files, profiling, test suite)
-* Basic to aggressive html minification (via htmlcompressor)
-* Autogenerates a cache manifest file (and links from the `html` tag) when you enable a property in the project config file.
-* Revises the file names of your assets so that you can use heavy caching (1 year expires).
-* Upgrades the .htaccess to use heavier caching
-* Updates your HTML to reference these new hyper-optimized CSS + JS files
-* Updates your HTML to use the minified jQuery instead of the development version
-* Remove unneeded references from HTML (like a root folder favicon)
-* Runs your JavaScript through a code quality tool (optional)
+### Deployment (Apache 2)
 
-<img src="http://html5boilerplate.com/img/chart.png">
+Step 0. Preparation
+-------------------
 
-## Add the build script to your project
+- Make sure that APPLICATION_PATH is correctly defined in index.php when under production.
 
-Since we split out the build scripts from the main h5bp repo, you now have more options on how to integrate a build script into your project. Beyond the choice of technology, there's also the choice of how to integrate the build script of choice into your h5bp project or local repo. There is nothing stopping you from manually dropping the build script in to your HTML5 Boilerplate project. That works. 
+    <?php
+        
+        // Define application environment
+        defined('APPLICATION_ENV') || define('APPLICATION_ENV',  	
+            (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production'));
+	
+        // Define path to application directory
+        defined('APPLICATION_PATH') || define('APPLICATION_PATH',
+            realpath(dirname(__FILE__) . ((APPLICATION_ENV !== 'production') ? '' : '/..') . '/../application'));
 
-However, if you'd like to merge it into your main repository and preserve the build script commit history, please follow this workflow: 
+        ...
 
-```
-# Move into your project's git repository
-cd my-project
-# Create and checkout a new feature branch
-git checkout -b ant-build-script
-# Create a new remote called "h5bp-ant-bs".
-# Fetch the build script from the remote repository.
-git remote add -f h5bp-ant-bs git://github.com/h5bp/ant-build-script.git
-git merge -s ours --no-commit h5bp-ant-bs/master
-# Put the build script into a subdirectory `build/`
-git read-tree --prefix=build/ -u h5bp-ant-bs/master
-# Commit the merge (preserve the build script history too)
-git commit -m "Subtree merge H5BP ant build script"
-# Update the build script subtree if needed
-git pull -s subtree h5bp-ant-bs master
-# Merge back into master branch if everything went according to plan
-```
+Step 1. Run the H5BP build script
+---------------------------------
+
+    cd public/build/
+    ant # The H5BP build script will begin to run and compress your files.
+
+
+Step 2. Change the site docroot to point to public/publish/
+-----------------------------------------------------------
+
+    <VirtualHost *:80>
+        # ...
+
+        SetEnv APPLICATION_ENV production
+
+    	DocumentRoot /home/me/workspace/myproject/public/publish
+        DirectoryIndex index.php
+
+        <Directory /home/me/workspace/myproject/public/publish>
+	    	AllowOverride All
+		    Order allow,deny
+    		Allow from all
+	    </Directory>
+
+        # ...
+    </VirtualHost>
+
+Step 3. Edit application.ini
+----------------------------
+
+- Change the production layouts folder in application.ini
+
+    [production]
+    phpSettings.display_startup_errors = 0
+    phpSettings.display_errors = 0
+    includePaths.library = APPLICATION_PATH "/../library"
+    bootstrap.path = APPLICATION_PATH "/Bootstrap.php"
+    bootstrap.class = "Bootstrap"
+    appnamespace = "Application"
+    resources.frontController.controllerDirectory = APPLICATION_PATH "/controllers"
+    resources.frontController.params.displayExceptions = 0
+
+    ; Published (H5BP build script generated) layouts
+    resources.layout.layoutPath = APPLICATION_PATH "/layouts/scripts/publish"
+
+    ; Ensure that view encoding is UTF-8 and that view helpers use HTML5
+    resources.view.encoding = "UTF-8"
+    resources.view.doctype = "HTML5"
+
+    [staging : production]
+
+    [testing : production]
+    phpSettings.display_startup_errors = 1
+    phpSettings.display_errors = 1
+    resources.layout.layoutPath = APPLICATION_PATH "/layouts/scripts"
+
+    [development : production]
+    phpSettings.display_startup_errors = 1
+    phpSettings.display_errors = 1
+    resources.frontController.params.displayExceptions = 1
+    resources.layout.layoutPath = APPLICATION_PATH "/layouts/scripts"
+
 
 ## Requirements
 
