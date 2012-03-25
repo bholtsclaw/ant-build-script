@@ -1,5 +1,4 @@
-# The H5BP ant build script Zend Framework integration
-[![Build Status](https://secure.travis-ci.org/muiku/h5bp-antbs-zendframework.png?branch=zfint)](http://travis-ci.org/muiku/h5bp-antbs-zendframework)
+# The H5BP ant build script Zend Framework integration [![Build Status](https://secure.travis-ci.org/muiku/h5bp-antbs-zendframework.png?branch=zfint)](http://travis-ci.org/muiku/h5bp-antbs-zendframework)
 
 ### Install
 
